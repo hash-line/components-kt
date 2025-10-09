@@ -1,3 +1,5 @@
+import kotlinx.serialization.Serializable
+
 enum class HashTextStyle{
     DisplayLarge,
     DisplayMedium,
@@ -38,54 +40,32 @@ interface Text : Component {
     
 }
 
-abstract class BaseText(
-    id: String = "",
-    enabled: Boolean = true,
-    presence: Presence = Presence.Visible,
-    override var style: HashTextStyle = HashTextStyle.BodyMedium,
-    override var alignment: TextAlign = TextAlign.Start
-) : BaseComponent(
-    id = id,
-    enabled = enabled,
-    presence = presence
-), Text
+@Serializable
+abstract class BaseText() : BaseComponent(), Text
 
+@Serializable
 class ResText(
-    id: String = "",
-    style: HashTextStyle = HashTextStyle.BodyMedium,
-    alignment: TextAlign = TextAlign.Start,
+    override val id: String = "",
+    override var style: HashTextStyle = HashTextStyle.BodyMedium,
+    override var alignment: TextAlign = TextAlign.Start,
     val resId: Int,
-) : BaseText(
-    id = id,
-    style = style,
-    alignment = alignment
-)
+) : BaseText()
 
-
+@Serializable
 class PlainText(
-    id: String = "",
-    style: HashTextStyle = HashTextStyle.BodyMedium,
-    alignment: TextAlign = TextAlign.Start,
-    
+    override val id: String = "",
+    override var style: HashTextStyle = HashTextStyle.BodyMedium,
+    override var alignment: TextAlign = TextAlign.Start,
     val text: String
-) : BaseText(
-    id = id,
-    style = style,
-    alignment = alignment,
-    
-)
+) : BaseText()
 
+@Serializable
 class AnnotatedText(
-    id: String = "",
-    style: HashTextStyle = HashTextStyle.BodyMedium,
-    alignment: TextAlign = TextAlign.Start,
+    override val id: String = "",
+    override var style: HashTextStyle = HashTextStyle.BodyMedium,
+    override var alignment: TextAlign = TextAlign.Start,
     val textWithLink: TextWithLinks
-) : BaseText(
-    id = id,
-    style = style,
-    alignment = alignment,
-    
-) {
+) : BaseText() {
 
 //    suspend fun select(link: Link) {
 //        raiseEvent(LinkClicked(
@@ -94,21 +74,13 @@ class AnnotatedText(
 //    }
 }
 
-fun String.asPlainText(
-    id: String = "",
-    style: HashTextStyle = HashTextStyle.BodyMedium,
-    alignment: TextAlign = TextAlign.Start
-): PlainText = PlainText(
-    id = id,
-    text = this, style = style, alignment = alignment
-)
-
 /**
  * Data class representing a text that contains multiple clickable links.
  *
  * @property text The full string of text, including both regular text and parts where links will appear.
  * @property links A list of links that define the sections of the text which are clickable.
  */
+@Serializable
 class TextWithLinks(
     val text: String,
     val links: List<Link>
@@ -121,8 +93,19 @@ class TextWithLinks(
  * @property endIndex The ending position of the link within the full text (exclusive).
  * @property url The URL that will be opened when the corresponding section of the text is clicked.
  */
+@Serializable
 class Link(
     val startIndex: Int,
     val endIndex: Int,
     val url: String
+)
+
+
+fun String.asPlainText(
+    id: String = "",
+    style: HashTextStyle = HashTextStyle.BodyMedium,
+    alignment: TextAlign = TextAlign.Start
+): PlainText = PlainText(
+    id = id,
+    text = this, style = style, alignment = alignment
 )

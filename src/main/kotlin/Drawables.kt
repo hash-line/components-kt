@@ -2,6 +2,7 @@ import kotlinx.serialization.Serializable
 
 interface Drawable
 
+@Serializable
 abstract class Icon : Drawable
 
 //class ResIcon(
@@ -14,6 +15,7 @@ abstract class Icon : Drawable
 //    val icon: ImageVector
 //) : Icon()
 
+@Serializable
 class NetworkIcon(
     val url: String
 ) : Icon()

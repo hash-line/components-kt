@@ -1,37 +1,42 @@
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class Container(
-    id: String = "",
-    enabled: Boolean = true,
-    presence: Presence = Presence.Visible,
+    override val id: String = "",
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true,
     //val style: ContainerStyle = ContainerStyle.defaultStyle,
     val body: Component,
     val onClick: (suspend Container.(Clicked) -> Event)? = null
-) : BaseComponent(
-    id = id,
-    enabled = enabled,
-    presence = presence,
-    mapper = { item, event ->
-        when(event){
-            is Clicked -> (item as Container).onClick?.invoke(item, event) ?: event
-            else -> event
+) : BaseComponent() {
+    override suspend fun raiseEvent(event: Event) {
+        when(event) {
+            is Clicked -> {
+                val mappedEvent = onClick?.invoke(this, event) ?: event
+                super.raiseEvent(mappedEvent)
+            }
+            else -> super.raiseEvent(event)
         }
     }
-)
+}
 
 class ComponentWrapper(
-    id: String = "",
-    enabled: Boolean = true,
-    presence: Presence = Presence.Visible,
+    override val id: String = "",
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true,
     val body: Component,
     val top: Component? = null,
     val bottom: Component? = null,
     val start: Component? = null,
     val end: Component? = null,
-) :  BaseComponent(
-    id = id,
-    enabled = enabled,
-    presence = presence
-)
+) :  BaseComponent(){
+
+    init {
+        setPresence(presence)
+        setEnabled(enabled)
+    }
+}
 
 
 

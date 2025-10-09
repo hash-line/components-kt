@@ -5,42 +5,47 @@ import Component
 import Presence
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.serialization.SerialName
 
 /**
  * [MultiChoiceField] is a [selection.SelectionInputField] where user is shown a number of options and user has to pick one. This
  * is different from [DropDownField] because the options are always visible to the user. Whereas in [DropDownField] the options are visible
  * only when user interacts with the field. This is useful in cases where the list of options is small e.g. Question with Yes, No answers
  *
- * @property choiceLabel The Label decoration
+ * @property choiceLabelFlow The Label decoration
  */
 class MultiChoiceField(
-    id: String = "",
-    top: Component? = null,
-    bottom: Component? = null,
-    start: Component? = null,
-    end: Component? = null,
-    required: Boolean = true,
-    readOnly: Boolean = false,
-    itemId: String? = null,
-    options: List<Component>,
-    choiceLabel: Component? = null,
-    presence: Presence = Presence.Visible,
+    override val id: String = "",
+    override val required: Boolean = true,
+    override val readOnly: Boolean = false,
+    override val top: Component? = null,
+    override val bottom: Component? = null,
+    override val start: Component? = null,
+    override val end: Component? = null,
+    @SerialName("itemId") private val itemId: String? = null,
+    @SerialName("options") private val options: List<Component> = emptyList(),
+    @SerialName("optionsLabel") private val optionsLabel: String = "",
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true,
+    val placeHolder: String = "",
+    val searchable: Boolean = false,
+    val choiceLabel: Component? = null,
     val orientation: Orientation = Orientation.Vertical
 ) : SelectionInputField(
-    id = id,
-    top = top,
-    bottom = bottom,
-    start = start,
-    end = end,
-    required = required,
-    readOnly = readOnly,
-    fieldPresence = presence,
-    options = options,
-    value = options.firstOrNull { it.id == itemId },
-    inputValidation = ItemNotNullValidation()
+//    id = id,
+//    top = top,
+//    bottom = bottom,
+//    start = start,
+//    end = end,
+//    required = required,
+//    readOnly = readOnly,
+//    fieldPresence = presence,
+//    options = options,
+//    value = options.firstOrNull { it.id == itemId },
+    validation = ItemNotNullValidation()
 ) {
     private val _choiceLabel = MutableStateFlow(choiceLabel)
-    val choiceLabel: StateFlow<Component?>
+    val choiceLabelFlow: StateFlow<Component?>
         get() = _choiceLabel
 
     suspend fun setChoices(

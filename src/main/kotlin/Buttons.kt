@@ -1,23 +1,21 @@
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
 interface Button : Component {
     suspend fun click()
-
 }
 
+@Serializable
 abstract class ButtonEvent : Event
 
+@Serializable
 class ClickEvent(
     val button: Button
 ) : ButtonEvent()
 
-abstract class BaseButton(
-    id: String = "",
-    presence: Presence = Presence.Visible,
-    enabled: Boolean = true
-) : Button, BaseComponent(
-    id = id,
-    presence = presence,
-    enabled = enabled
-) {
+@Serializable
+abstract class BaseButton() : Button, BaseComponent() {
+
     override suspend fun click() {
         raiseEvent(
             ClickEvent(
@@ -27,16 +25,13 @@ abstract class BaseButton(
     }
 }
 
+@Serializable
 class TextButton(
-    id: String,
-    enabled: Boolean,
-    presence: Presence,
+    override val id: String,
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true,
     val text: Text,
-) : BaseButton(
-    id = id,
-    enabled = enabled,
-    presence = presence
-) {
+) : BaseButton() {
     constructor(
         text: String,
         id: String = "",
@@ -50,25 +45,31 @@ class TextButton(
     )
 }
 
-class IconButton(
-    id: String = "",
-    enabled: Boolean = true,
-    presence: Presence = Presence.Visible,
-    val icon: Icon
-) : BaseButton(
-    id = id,
-    enabled = enabled,
-    presence = presence
-)
 
+@Serializable
+class IconButton(
+    override val id: String = "",
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true,
+    val icon: Icon
+) : BaseButton() {
+    init {
+        setPresence(presence)
+        setEnabled(enabled)
+    }
+}
+
+
+@Serializable
 class TextIconButton(
-    id: String = "",
-    enabled: Boolean = true,
-    presence: Presence = Presence.Visible,
+    override val id: String = "",
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true,
     val icon: Icon,
     val text: Text
-) : BaseButton(
-    id = id,
-    enabled = enabled,
-    presence = presence
-)
+) : BaseButton() {
+    init {
+        setPresence(presence)
+        setEnabled(enabled)
+    }
+}

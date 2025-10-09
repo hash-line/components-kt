@@ -44,6 +44,9 @@ abstract class MediaField(
     validation = validation
 ) {
 
+    override val default: String?
+        get() = null
+
     override suspend fun clear() {
         setValue(null)
     }

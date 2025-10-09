@@ -6,9 +6,9 @@ import InputField
 import InputValidation
 import NoValidation
 import ValidationCode
-import Presence
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.serialization.Serializable
 
 /**
  * [SelectionInputField] is an [InputField] where user selects one or more options from a list of options.
@@ -16,39 +16,20 @@ import kotlinx.coroutines.flow.StateFlow
  * multiple-selection where user can select multiple options. e.g. start and end date for a date range
  *
  * @property options The list of options to select from.
- * @property validation The validation rules for the input field.
+ * @property inputValidation The validation rules for the input field.
  *
  * @see InputField
  */
+@Serializable
 abstract class SelectionInputField(
-    value: Component? = null,
-    enabled: Boolean = true,
-    id: String = "",
-    top: Component? = null,
-    bottom: Component? = null,
-    start: Component? = null,
-    end: Component? = null,
-    required: Boolean = true,
-    readOnly: Boolean = false,
-    options: List<Component>,
-    fieldPresence: Presence = Presence.Visible,
-    validation: InputValidation<Component?> = NoValidation()
-) : BaseInputField<Component?>(
-    id = id,
-    value = value,
-    presence = fieldPresence,
-    enabled = enabled,
-    top = top,
-    bottom = bottom,
-    start = start,
-    end = end,
-    required = required,
-    readOnly = readOnly,
-    validation = validation
-) {
+    override val validation: InputValidation<Component?> = NoValidation()
+) : BaseInputField<Component?>() {
 
-    private val _options = MutableStateFlow(options)
-    val options: StateFlow<List<Component>>
+    override val default: Component?
+        get() = null
+
+    private val _options = MutableStateFlow<List<Component>>(emptyList())
+    val optionsFlow: StateFlow<List<Component>>
         get() = _options
 
     override suspend fun clear() {
@@ -83,6 +64,7 @@ abstract class SelectionInputField(
 /**
  * Validates that input is not null
  */
+@Serializable
 class ItemNotNullValidation : InputValidation<Component?> {
     override fun validate(input: Component?): Int =
         if (input == null) ValidationCode.UNDEFINED else ValidationCode.VALID

@@ -3,46 +3,41 @@ package selection
 import BaseComponent
 import Component
 import InputValidation
-import ValidationCode
 import Presence
+import ValidationCode
 import kotlinx.datetime.Clock
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlin.time.ExperimentalTime
 
+@Serializable
 class DateRangeItem(
-    id: String = "",
+    override val id: String = "",
     val start: Long,
     val end: Long,
     val format: String
-) : BaseComponent(
-    id = id
-)
+) : BaseComponent()
 
+@Serializable
 class DateRangeField(
-    id: String = "",
-    top: Component? = null,
-    bottom: Component? = null,
-    start: Component? = null,
-    end: Component? = null,
-    required: Boolean = true,
-    value: DateRangeItem? = null,
-    fieldPresence: Presence = Presence.Visible,
-    validation: DateRangeValidation = DateRangeValidation(DateRanges.indefinite),
+    override val id: String = "",
+    override val required: Boolean = true,
+    override val readOnly: Boolean = false,
+    override val top: Component? = null,
+    override val bottom: Component? = null,
+    override val start: Component? = null,
+    override val end: Component? = null,
+    @SerialName("itemId") private val itemId:  String? = null,
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true,
+    val validationRange: Long = DateRanges.indefinite,
     val selectionMode: DateSelectionMode = DateSelectionMode.Range,
     val constraints: DateSelectionConstraint = DateConstraints.none,
     val labelFirst: String = "",
     val labelSecond: String = "",
     val format: String,
 ) : SelectionInputField(
-    id = id,
-    value = value,
-    top = top,
-    bottom = bottom,
-    start = start,
-    end = end,
-    required = required,
-    fieldPresence = fieldPresence,
-    validation = validation,
-    options = emptyList<Component>()
+    validation = DateRangeValidation(validationRange)
 )
 
 
@@ -77,6 +72,7 @@ object DateRanges {
  *
  * @property rangeInMillis The allowed range in epoch milliseconds.
  */
+@Serializable
 class DateRangeValidation(
     private val rangeInMillis: Long
 ) : InputValidation<Component?> {
@@ -106,6 +102,7 @@ class DateRangeValidation(
  * @property minDate The minimum date that can be selected. Defaults to null, which means no minimum date.
  * @property maxDate The maximum date that can be selected. Defaults to null, which means no maximum date.
  */
+@Serializable
 data class DateSelectionConstraint(
     val minDate: Long? = null,
     val maxDate: Long? = null

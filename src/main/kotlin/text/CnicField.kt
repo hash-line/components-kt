@@ -3,32 +3,25 @@ package text
 import Component
 import ValidationCode
 import Presence
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class CnicField(
-    id: String = "CNIC",
-    value: String = "",
-    required: Boolean = true,
-    readOnly: Boolean = false,
-    enabled: Boolean = true,
-    presence: Presence = Presence.Visible,
-    placeHolder: String = "",
-    top: Component? = null,
-    bottom: Component? = null,
-    start: Component? = null,
-    end: Component? = null
+    override val id: String = "",
+    override val required: Boolean = true,
+    override val readOnly: Boolean = false,
+    override val singleLine: Boolean = true,
+    override val placeHolder: String = "",
+    override val label: String = "",
+    override val top: Component? = null,
+    override val bottom: Component? = null,
+    override val start: Component? = null,
+    override val end: Component? = null,
+    @SerialName("value") private val value: String = "",
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true
 ) : TextInputField(
-    id = id,
-    value = value,
-    top = top,
-    bottom = bottom,
-    start = start,
-    end = end,
-    enabled = enabled,
-    required = required,
-    readOnly = readOnly,
-    presence = presence,
-    singleLine = true,
-    placeHolder = placeHolder,
     validation = CnicValidation()
 )
 
@@ -36,6 +29,7 @@ class CnicField(
 /**
  * Validates CNIC Input. CNIC is 13 digit number
  */
+@Serializable
 class CnicValidation : TextInputValidation {
     override fun validate(input: String): Int {
         return when {

@@ -3,32 +3,28 @@ package text
 import Component
 import ValidationCode
 import Presence
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class EmailField(
-    id: String = "",
-    value: String = "",
-    required: Boolean = true,
-    readOnly: Boolean = false,
-    presence: Presence = Presence.Visible,
-    placeHolder: String = "",
-    top: Component? = null,
-    bottom: Component? = null,
-    start: Component? = null,
-    end: Component? = null
+    override val id: String = "",
+    override val required: Boolean = true,
+    override val readOnly: Boolean = false,
+    override val placeHolder: String = "",
+    override val label: String = "",
+    override val top: Component? = null,
+    override val bottom: Component? = null,
+    override val start: Component? = null,
+    override val end: Component? = null,
+    @SerialName("value") private val value: String = "",
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true,
 ) : TextInputField(
-    id = id,
-    value = value,
-    top = top,
-    bottom = bottom,
-    start = start,
-    end = end,
-    required = required,
-    readOnly = readOnly,
-    presence = presence,
-    singleLine = true,
-    placeHolder = placeHolder,
     validation = EmailValidation()
-)
+){
+    override val singleLine: Boolean = true
+}
 
 
 /**
@@ -42,6 +38,7 @@ class EmailField(
  * The total length of the email address must not exceed 320 characters.
  * However, practical systems often limit the combined length to `254` characters for compatibility and storage reasons (as per the SMTP protocol).
  */
+@Serializable
 class EmailValidation : TextInputValidation {
     companion object {
         const val MAX_EMAIL_LENGTH = 254

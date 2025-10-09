@@ -3,6 +3,7 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.serialization.Serializable
 
 /**
  * Anything that can be displayed on the screen is a [Component]. A [Component] is the base building block of the UI.
@@ -24,9 +25,9 @@ interface Component : Flow<Event> {
      *
      * This flow controls whether the component is currently visible, hidden, or forgotten.
      */
-    val presence: StateFlow<Presence>
+    val presenceFlow: StateFlow<Presence>
 
-    val enabled: StateFlow<Boolean>
+    val enabledFlow: StateFlow<Boolean>
 
     /**
      * Updates the presence of the component to the given [Presence].
@@ -41,24 +42,31 @@ interface Component : Flow<Event> {
     fun setEnabled(enabled: Boolean)
 }
 
-abstract class BaseComponent(
-    override val id: String = "",
-    enabled: Boolean = true,
-    presence: Presence = Presence.Visible,
-    replay: Int = 0,
-    private val mapper: (suspend (Component, Event) -> Event)? = null
-) : Component {
+@Serializable
+abstract class BaseComponent() : Component {
 
-    protected val eventsFlow = MutableSharedFlow<Event>(replay = replay)
+    constructor(
+        enabled: Boolean = true,
+        presence: Presence = Presence.Visible,
+        mapper: (suspend (Component, Event) -> Event)? = null
+    ) : this() {
+        _enabled.value = enabled
+        _presence.value = presence
+        this.mapper = mapper
+    }
+
+    protected val eventsFlow = MutableSharedFlow<Event>(replay = 0)
     protected val flow: Flow<Event> by lazy { eventsFlowBuilder() }
 
-    private val _presence = MutableStateFlow(presence)
-    override val presence: StateFlow<Presence>
+    private val _presence = MutableStateFlow(Presence.Visible)
+    override val presenceFlow: StateFlow<Presence>
         get() = _presence
 
-    private val _enabled = MutableStateFlow(enabled)
-    override val enabled: MutableStateFlow<Boolean>
+    private val _enabled = MutableStateFlow(true)
+    override val enabledFlow: MutableStateFlow<Boolean>
         get() = _enabled
+
+    var mapper: (suspend (Component, Event) -> Event)? = null
 
     open fun eventsFlowBuilder(): Flow<Event> = eventsFlow
 
@@ -76,7 +84,7 @@ abstract class BaseComponent(
      }
 
     open suspend fun raiseEvent(event: Event) {
-        if(enabled.value){
+        if(enabledFlow.value){
             eventsFlow.emit(mapper?.invoke(this, event) ?: event)
         }
     }

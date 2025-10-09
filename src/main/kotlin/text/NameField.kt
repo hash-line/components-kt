@@ -5,6 +5,8 @@ import ValidationCode
 import Presence
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * [NameField] is an [text.TextInputField] where user can input name. A name is between 3 - 20 chars length, and
@@ -12,31 +14,23 @@ import kotlinx.coroutines.flow.StateFlow
  *
  * @property splitName Whether the name should be split into first and last name.
  */
+@Serializable
 class NameField(
-    id: String = "Name",
-    required: Boolean = true,
-    readOnly: Boolean = false,
-    singleLine: Boolean = true,
-    presence: Presence = Presence.Visible,
-    top: Component? = null,
-    bottom: Component? = null,
-    start: Component? = null,
-    end: Component? = null,
-    placeHolder: String = "",
-    value: String = "",
+    override val id: String = "",
+    override val required: Boolean = true,
+    override val readOnly: Boolean = false,
+    override val singleLine: Boolean = true,
+    override val placeHolder: String = "",
+    override val label: String = "",
+    override val top: Component? = null,
+    override val bottom: Component? = null,
+    override val start: Component? = null,
+    override val end: Component? = null,
+    @SerialName("value") private val value: String = "",
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true,
     val splitName: Boolean = false
 ) : TextInputField(
-    id = id,
-    value = value,
-    top = top,
-    bottom = bottom,
-    start = start,
-    end = end,
-    required = required,
-    readOnly = readOnly,
-    presence = presence,
-    singleLine = singleLine,
-    placeHolder = placeHolder,
     validation = NameValidation(
         splitName = splitName
     )
@@ -58,6 +52,7 @@ class NameField(
     }
 }
 
+@Serializable
 class NameValidation(
     val splitName: Boolean
 ) : TextInputValidation {

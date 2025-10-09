@@ -3,34 +3,31 @@ package text
 import Component
 import ValidationCode
 import Presence
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 class PinField(
-    id: String = "",
-    value: String = "",
-    required: Boolean = true,
-    readOnly: Boolean = false,
-    presence: Presence = Presence.Visible,
-    top: Component? = null,
-    bottom: Component? = null,
-    start: Component? = null,
-    end: Component? = null,
-    val length: Int = 4,
+    override val id: String = "",
+    override val required: Boolean = true,
+    override val readOnly: Boolean = false,
+    override val singleLine: Boolean = true,
+    override val placeHolder: String = "",
+    override val label: String = "",
+    override val top: Component? = null,
+    override val bottom: Component? = null,
+    override val start: Component? = null,
+    override val end: Component? = null,
+    @SerialName("value") private val value: String = "",
+    @SerialName("length") private val length: Int = 4,
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true
 ) : TextInputField(
-    id = id,
-    value = value,
-    top = top,
-    bottom = bottom,
-    start = start,
-    end = end,
-    required = required,
-    readOnly = readOnly,
-    presence = presence,
-    singleLine = true,
-    placeHolder = "",
     validation = PinValidation(length = length)
 )
 
+@Serializable
 class PinValidation(
     private val length: Int = 4
 ) : TextInputValidation {

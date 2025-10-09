@@ -1,43 +1,40 @@
 package text
 
 import Component
-
-import ValidationCode
 import Presence
+import ValidationCode
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class TextField(
-    id: String = "",
-    required: Boolean = true,
-    readOnly: Boolean = false,
-    presence: Presence = Presence.Visible,
-    singleLine: Boolean = true,
-    placeHolder: String = "",
-    label: String = "",
-    top: Component? = null,
-    bottom: Component? = null,
-    start: Component? = null,
-    end: Component? = null,
-    value: String = "",
-    minLength: Int = 0,
-    maxLength: Int = Int.MAX_VALUE,
+    override val id: String = "",
+    override val required: Boolean = true,
+    override val readOnly: Boolean = false,
+    override val singleLine: Boolean = true,
+    override val placeHolder: String = "",
+    override val label: String = "",
+    override val top: Component? = null,
+    override val bottom: Component? = null,
+    override val start: Component? = null,
+    override val end: Component? = null,
+    @SerialName("value") private val value: String = "",
+    @SerialName("minLength") val minLength: Int = 0,
+    @SerialName("maxLength") val maxLength: Int = Int.MAX_VALUE,
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true
 ) : TextInputField(
-    id = id,
-    top = top,
-    value = value,
-    bottom = bottom,
-    start = start,
-    end = end,
-    required = required,
-    presence = presence,
-    readOnly = readOnly,
-    singleLine = singleLine,
-    placeHolder = placeHolder,
-    label = label,
     validation = TextValidation(
         minLength = minLength,
         maxLength = maxLength
     )
-)
+){
+    init {
+        setValueSilently(value)
+        setPresence(presence)
+        setEnabled(enabled)
+    }
+}
 
 /**
  * ## Combined Length:
@@ -45,6 +42,7 @@ class TextField(
  * although the actual length can vary depending on the country's domestic banking system
  */
 
+@Serializable
 class TextValidation(
     private val minLength: Int,
     private val maxLength: Int

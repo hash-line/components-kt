@@ -3,6 +3,8 @@ package text
 import Component
 import ValidationCode
 import Presence
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import models.Country
 import models.code
 import models.mobileNumberRegex
@@ -13,43 +15,49 @@ import models.mobileNumberRegex
  * @property countryCode The country code of the MSISDN
  * @property prefixCountryCode Whether the country code should be appended to the MSISDN
  */
+@Serializable
 class MsisdnField(
-    id: String = "Mobile",
-    value: String = "",
-    required: Boolean = true,
-    readOnly: Boolean = false,
-    presence: Presence = Presence.Visible,
-    placeHolder: String = "",
-    top: Component? = null,
-    bottom: Component? = null,
-    start: Component? = null,
-    end: Component? = null,
+    override val id: String = "",
+    override val required: Boolean = true,
+    override val readOnly: Boolean = false,
+    override val placeHolder: String = "",
+    override val label: String = "",
+    override val top: Component? = null,
+    override val bottom: Component? = null,
+    override val start: Component? = null,
+    override val end: Component? = null,
+    @SerialName("value") private val value: String = "",
+    @SerialName("presence") private val presence: Presence = Presence.Visible,
+    @SerialName("enabled") private val enabled: Boolean = true,
     val countryCode: Country = Country.default,
     val prefixCountryCode: Boolean = false
 ) : TextInputField(
-    id = id,
-    value = if (prefixCountryCode && value.startsWith("0")) {
-        value.drop(1)
-    } else {
-        value
-    },
-    top = top,
-    bottom = bottom,
-    start = start,
-    end = end,
-    required = required,
-    readOnly = readOnly,
-    presence = presence,
-    singleLine = true,
-    placeHolder = placeHolder,
+//    id = id,
+//    value = if (prefixCountryCode && value.startsWith("0")) {
+//        value.drop(1)
+//    } else {
+//        value
+//    },
+//    top = top,
+//    bottom = bottom,
+//    start = start,
+//    end = end,
+//    required = required,
+//    readOnly = readOnly,
+//    presence = presence,
+//    placeHolder = placeHolder,
     validation = MsisdnValidation(
         countryCode = countryCode,
         countryCodeSuffixed = prefixCountryCode
     )
 ) {
+
+    override val singleLine: Boolean
+        get() = true
+
     val withCountryCode: String
         get() {
-            val enteredValue = value.value
+            val enteredValue = valueFlow.value
             return if (prefixCountryCode) {
                 "${countryCode.code()}${enteredValue}"
             } else {
@@ -59,7 +67,7 @@ class MsisdnField(
 
     val withoutCountryCode: String
         get() {
-            val enteredValue = value.value
+            val enteredValue = valueFlow.value
             return if (enteredValue.isEmpty()) ""
             else if (enteredValue.startsWith("0"))
                 enteredValue
@@ -79,7 +87,7 @@ class MsisdnField(
     }
 }
 
-
+@Serializable
 class MsisdnValidation(
     private val countryCode: Country,
     private val countryCodeSuffixed: Boolean = false

@@ -3,9 +3,9 @@ package groups
 import Event
 import BaseComponent
 import Component
-import Presence
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.merge
+import kotlinx.serialization.Serializable
 
 interface LabeledComponent : Component {
 
@@ -30,19 +30,16 @@ interface LabeledComponent : Component {
     val end: Component?
 }
 
-open class BaseLabeledComponent(
-    id: String = "",
-    enabled: Boolean = true,
-    presence: Presence = Presence.Visible,
-    open val top: Component? = null,
-    open val bottom: Component? = null,
-    open val start: Component? = null,
-    open val end: Component? = null
-): BaseComponent(
-    id = id,
-    enabled = enabled,
-    presence = presence
-){
+@Serializable
+abstract class BaseLabeledComponent(): BaseComponent(){
+
+    abstract val top: Component?
+
+    abstract val bottom: Component?
+
+    abstract val start: Component?
+
+    abstract val end: Component?
 
     override fun eventsFlowBuilder(): Flow<Event> {
         val flows = listOfNotNull(

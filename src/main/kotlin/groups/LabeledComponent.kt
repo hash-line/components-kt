@@ -30,7 +30,6 @@ interface LabeledComponent : Component {
     val end: Component?
 }
 
-@Serializable
 abstract class BaseLabeledComponent(): BaseComponent(){
 
     abstract val top: Component?

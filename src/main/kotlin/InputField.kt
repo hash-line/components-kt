@@ -45,7 +45,6 @@ interface InputField<T> : LabeledComponent {
 /**
  * [BaseInputField] is parent class for all input fields.
  */
-@Serializable
 abstract class BaseInputField<T>() : BaseLabeledComponent(), InputField<T> {
 
     @kotlinx.serialization.Transient

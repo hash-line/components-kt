@@ -42,7 +42,6 @@ interface Component : Flow<Event> {
     fun setEnabled(enabled: Boolean)
 }
 
-@Serializable
 abstract class BaseComponent() : Component {
 
 //    constructor(

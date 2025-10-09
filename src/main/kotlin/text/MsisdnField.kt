@@ -46,11 +46,13 @@ class MsisdnField(
 //    readOnly = readOnly,
 //    presence = presence,
 //    placeHolder = placeHolder,
-    validation = MsisdnValidation(
+
+) {
+
+    override val validation = MsisdnValidation(
         countryCode = countryCode,
         countryCodeSuffixed = prefixCountryCode
     )
-) {
 
     override val singleLine: Boolean
         get() = true

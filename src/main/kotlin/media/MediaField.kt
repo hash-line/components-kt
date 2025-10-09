@@ -13,11 +13,8 @@ enum class PresentationMode {
  * [MediaField] is an input field that can be used to upload media files.
  *
  */
-
 @Serializable
-abstract class MediaField(
-    override val validation: FileInputValidation
-) : BaseInputField<String?>() {
+abstract class MediaField() : BaseInputField<String?>() {
 
     abstract val presentationMode: PresentationMode
 
@@ -33,7 +30,7 @@ abstract class MediaField(
 /**
  * [FileInputValidation] represents the validation rules for a files input field.
  */
-interface FileInputValidation : InputValidation<String?>
+sealed interface FileInputValidation : InputValidation<String?>
 
 
 

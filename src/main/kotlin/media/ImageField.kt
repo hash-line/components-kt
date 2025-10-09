@@ -21,10 +21,12 @@ class ImageField(
     @SerialName("enabled") private val enabled: Boolean = true,
     val placeHolder: Component? = null,
     override val presentationMode: PresentationMode = PresentationMode.Field,
-) : MediaField(
-    validation = ImageFileValidation()
-)
+) : MediaField(){
 
+    override val validation = ImageFileValidation()
+}
+
+@Serializable
 class ImageFileValidation : FileInputValidation {
     override fun validate(input: String?): Int {
         return when {

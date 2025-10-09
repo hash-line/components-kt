@@ -21,9 +21,10 @@ class CnicField(
     @SerialName("value") private val value: String = "",
     @SerialName("presence") private val presence: Presence = Presence.Visible,
     @SerialName("enabled") private val enabled: Boolean = true
-) : TextInputField(
-    validation = CnicValidation()
-)
+) : TextInputField(){
+
+    override val validation = CnicValidation()
+}
 
 
 /**

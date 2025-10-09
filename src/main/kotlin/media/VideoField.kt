@@ -22,9 +22,11 @@ class VideoField(
     val placeHolder: Component? = null,
     override val presentationMode: PresentationMode = PresentationMode.Field,
 ) : MediaField(
-    validation = VideoFileValidation()
-)
+){
+    override val validation = VideoFileValidation()
+}
 
+@Serializable
 class VideoFileValidation : FileInputValidation {
     override fun validate(input: String?): Int {
         return when {

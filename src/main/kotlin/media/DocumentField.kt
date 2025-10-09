@@ -20,13 +20,13 @@ class DocumentField(
     @SerialName("enabled") private val enabled: Boolean = true,
     val placeHolder: Component? = null,
     override val presentationMode: PresentationMode = PresentationMode.Field,
-) : MediaField(
-    validation = DocumentFileValidation()
-)
+) : MediaField(){
 
+    override val validation = DocumentFileValidation()
+}
 
+@Serializable
 class DocumentFileValidation(
-
 ) : FileInputValidation {
     override fun validate(input: String?): Int {
         //TODO:

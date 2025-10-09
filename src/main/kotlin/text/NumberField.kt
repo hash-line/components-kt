@@ -23,5 +23,6 @@ class NumberField(
     val description: String = "",
     val controlsEnabled: Boolean = false
 ) : TextInputField(
-    validation = TextNotEmptyValidation()
-)
+){
+    override val validation = TextNotEmptyValidation()
+}

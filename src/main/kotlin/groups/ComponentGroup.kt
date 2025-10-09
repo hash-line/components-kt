@@ -1,16 +1,10 @@
 package groups
 
-import EmptyEvent
-import Event
 import Component
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import Event
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.filterNot
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.merge
 import kotlinx.serialization.Serializable
 
@@ -45,25 +39,27 @@ abstract class BaseComponentGroup() : BaseLabeledComponent(), ComponentGroup {
 
     abstract val divider: Component?
 
+    @kotlinx.serialization.Transient
     private val _children: MutableStateFlow<List<Component>> = MutableStateFlow(emptyList())
+    @kotlinx.serialization.Transient
     override val childrenFlow: StateFlow<List<Component>> = _children
 
     override val count: Int
         get() = _children.value.size
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val _childrenEvents = childrenFlow.flatMapLatest { fields ->
-        fields.asFlow()
-            .flatMapMerge { component ->
-                component as Flow<Event>
-            }
-    }
+//    @OptIn(ExperimentalCoroutinesApi::class)
+//    private val _childrenEvents = childrenFlow.flatMapLatest { fields ->
+//        fields.asFlow()
+//            .flatMapMerge { component ->
+//                component as Flow<Event>
+//            }
+//    }
 
     override fun eventsFlowBuilder(): Flow<Event> = merge(
         super.eventsFlowBuilder(),
-        _childrenEvents.filterNot {
-            it is EmptyEvent
-        }
+//        _childrenEvents.filterNot {
+//            it is EmptyEvent
+//        }
     )
 
     fun setChildren(components: List<Component>) {

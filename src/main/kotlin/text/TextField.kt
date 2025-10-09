@@ -24,11 +24,12 @@ class TextField(
     @SerialName("presence") private val presence: Presence = Presence.Visible,
     @SerialName("enabled") private val enabled: Boolean = true
 ) : TextInputField(
-    validation = TextValidation(
+){
+    override val validation = TextValidation(
         minLength = minLength,
         maxLength = maxLength
     )
-){
+
     init {
         setValueSilently(value)
         setPresence(presence)

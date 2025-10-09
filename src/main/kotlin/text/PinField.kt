@@ -23,9 +23,10 @@ class PinField(
     @SerialName("length") private val length: Int = 4,
     @SerialName("presence") private val presence: Presence = Presence.Visible,
     @SerialName("enabled") private val enabled: Boolean = true
-) : TextInputField(
-    validation = PinValidation(length = length)
-)
+) : TextInputField(){
+
+    override val validation = PinValidation(length = length)
+}
 
 @Serializable
 class PinValidation(

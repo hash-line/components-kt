@@ -1,6 +1,5 @@
 import kotlinx.serialization.Serializable
 
-
 interface UserInterfaceEvent : Event
 
 @Serializable

@@ -45,27 +45,31 @@ interface Component : Flow<Event> {
 @Serializable
 abstract class BaseComponent() : Component {
 
-    constructor(
-        enabled: Boolean = true,
-        presence: Presence = Presence.Visible,
-        mapper: (suspend (Component, Event) -> Event)? = null
-    ) : this() {
-        _enabled.value = enabled
-        _presence.value = presence
-        this.mapper = mapper
-    }
+//    constructor(
+//        enabled: Boolean = true,
+//        presence: Presence = Presence.Visible,
+//        mapper: (suspend (Component, Event) -> Event)? = null
+//    ) : this() {
+//        _enabled.value = enabled
+//        _presence.value = presence
+//        this.mapper = mapper
+//    }
 
+    @kotlinx.serialization.Transient
     protected val eventsFlow = MutableSharedFlow<Event>(replay = 0)
     protected val flow: Flow<Event> by lazy { eventsFlowBuilder() }
 
+    @kotlinx.serialization.Transient
     private val _presence = MutableStateFlow(Presence.Visible)
     override val presenceFlow: StateFlow<Presence>
         get() = _presence
 
+    @kotlinx.serialization.Transient
     private val _enabled = MutableStateFlow(true)
     override val enabledFlow: MutableStateFlow<Boolean>
         get() = _enabled
 
+    @kotlinx.serialization.Transient
     var mapper: (suspend (Component, Event) -> Event)? = null
 
     open fun eventsFlowBuilder(): Flow<Event> = eventsFlow

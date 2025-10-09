@@ -30,12 +30,9 @@ class OtpField(
     @SerialName("enabled") private val enabled: Boolean = true,
     val isAlphanumeric: Boolean,
     val autoFetched: Boolean = true
-) : TextInputField(
-    validation = OTPValidation(
-        isAlphanumeric = isAlphanumeric,
-        length = length
-    )
-)
+) : TextInputField(){
+    override val validation = OTPValidation(isAlphanumeric = isAlphanumeric, length = length)
+}
 
 
 @Serializable

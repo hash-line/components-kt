@@ -23,9 +23,10 @@ class DateField(
     @SerialName("presence") private val presence: Presence = Presence.Visible,
     @SerialName("enabled") private val enabled: Boolean = true,
     val format: String = "ddMMyyyy",
-) : TextInputField(
-    validation = DateValidation(format = format)
-) {
+) : TextInputField() {
+
+    override val validation = DateValidation(format = format)
+
     suspend fun setValue(value: Long) {
         //setValue(value.toFormattedDateTime(format))
     }

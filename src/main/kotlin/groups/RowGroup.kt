@@ -5,7 +5,6 @@ import Presence
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-
 @Serializable
 class RowGroup(
     override val id: String = "",

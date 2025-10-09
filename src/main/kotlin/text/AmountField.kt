@@ -23,12 +23,13 @@ class AmountField(
     @SerialName("maxAmount") val maxAmount: Double = Double.MAX_VALUE,
     @SerialName("presence") private val presence: Presence = Presence.Visible,
     @SerialName("enabled") private val enabled: Boolean = true
-) : TextInputField(
-    validation = AmountValidation(
+) : TextInputField(){
+
+    override val validation = AmountValidation(
         minAmount = minAmount,
         maxAmount = maxAmount
     )
-)
+}
 
 @Serializable
 class AmountValidation(

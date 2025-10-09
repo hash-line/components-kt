@@ -48,10 +48,12 @@ interface InputField<T> : LabeledComponent {
 @Serializable
 abstract class BaseInputField<T>() : BaseLabeledComponent(), InputField<T> {
 
+    @kotlinx.serialization.Transient
     private val _value = MutableStateFlow(default)
     override val valueFlow: StateFlow<T>
         get() = _value
 
+    @kotlinx.serialization.Transient
     private val _validationState = MutableStateFlow(validateInput(default))
     override val validationStateFlow: StateFlow<Int>
         get() = _validationState

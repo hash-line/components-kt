@@ -31,13 +31,14 @@ class NameField(
     @SerialName("enabled") private val enabled: Boolean = true,
     val splitName: Boolean = false
 ) : TextInputField(
-    validation = NameValidation(
-        splitName = splitName
-    )
 ) {
+    override val validation = NameValidation(splitName = splitName)
+
+    @kotlinx.serialization.Transient
     private val _firstName = MutableStateFlow<String>("")
     val firstName: StateFlow<String> = _firstName
 
+    @kotlinx.serialization.Transient
     private val _lastName = MutableStateFlow<String>("")
     val lastName: StateFlow<String> = _lastName
 

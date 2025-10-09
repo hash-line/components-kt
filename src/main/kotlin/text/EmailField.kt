@@ -20,9 +20,10 @@ class EmailField(
     @SerialName("value") private val value: String = "",
     @SerialName("presence") private val presence: Presence = Presence.Visible,
     @SerialName("enabled") private val enabled: Boolean = true,
-) : TextInputField(
-    validation = EmailValidation()
-){
+) : TextInputField(){
+
+    override val validation = EmailValidation()
+
     override val singleLine: Boolean = true
 }
 

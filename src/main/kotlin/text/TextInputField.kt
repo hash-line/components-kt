@@ -32,9 +32,7 @@ class TextNotEmptyValidation : TextInputValidation {
  * @see InputValidation
  */
 @Serializable
-abstract class TextInputField(
-    override val validation: TextInputValidation
-) : BaseInputField<String>() {
+abstract class TextInputField() : BaseInputField<String>() {
 
     abstract val singleLine: Boolean
 

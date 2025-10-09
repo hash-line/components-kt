@@ -25,6 +25,9 @@ abstract class SelectionInputField(
     override val validation: InputValidation<Component?> = NoValidation()
 ) : BaseInputField<Component?>() {
 
+    // Add parameterless constructor for serialization
+    constructor() : this(NoValidation())
+
     override val default: Component?
         get() = null
 

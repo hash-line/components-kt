@@ -24,6 +24,12 @@ class VideoField(
 ) : MediaField(
 ){
     override val validation = VideoFileValidation()
+
+    init {
+        setValueSilently(value)
+        setPresence(presence)
+        setEnabled(enabled)
+    }
 }
 
 @Serializable

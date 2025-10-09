@@ -24,6 +24,12 @@ class ImageField(
 ) : MediaField(){
 
     override val validation = ImageFileValidation()
+
+    init {
+        setValueSilently(value)
+        setPresence(presence)
+        setEnabled(enabled)
+    }
 }
 
 @Serializable

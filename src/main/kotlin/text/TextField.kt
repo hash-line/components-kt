@@ -23,8 +23,8 @@ class TextField(
     @SerialName("maxLength") val maxLength: Int = Int.MAX_VALUE,
     @SerialName("presence") private val presence: Presence = Presence.Visible,
     @SerialName("enabled") private val enabled: Boolean = true
-) : TextInputField(
-){
+) : TextInputField(){
+
     override val validation = TextValidation(
         minLength = minLength,
         maxLength = maxLength

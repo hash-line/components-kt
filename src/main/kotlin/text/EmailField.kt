@@ -25,6 +25,12 @@ class EmailField(
     override val validation = EmailValidation()
 
     override val singleLine: Boolean = true
+
+    init {
+        setValueSilently(value)
+        setPresence(presence)
+        setEnabled(enabled)
+    }
 }
 
 

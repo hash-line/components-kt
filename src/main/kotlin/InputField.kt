@@ -53,7 +53,7 @@ abstract class BaseInputField<T>() : BaseLabeledComponent(), InputField<T> {
         get() = _value
 
     @kotlinx.serialization.Transient
-    private val _validationState = MutableStateFlow(validateInput(default))
+    private val _validationState = MutableStateFlow(ValidationCode.EMPTY)
     override val validationStateFlow: StateFlow<Int>
         get() = _validationState
 

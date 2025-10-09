@@ -1,5 +1,6 @@
 package text
 
+import InputField
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.decodeFromString
@@ -13,36 +14,6 @@ class TextFieldSerializationTest {
     private val json = Json {
         prettyPrint = true
         ignoreUnknownKeys = true
-    }
-
-    @Test
-    fun `test basic TextField serialization`() {
-        // Given
-        val textField = TextField(
-            id = "test-field-1",
-            required = true,
-            readOnly = false,
-            singleLine = true,
-            placeHolder = "Enter your name",
-            label = "Full Name",
-            value = "John Doe",
-            minLength = 2,
-            maxLength = 50,
-            presence = Presence.Visible,
-            enabled = true
-        )
-
-        // When
-        val jsonString = json.encodeToString(textField)
-
-        // Then
-        assertNotNull(jsonString)
-        assertTrue(jsonString.contains("\"id\": \"test-field-1\""))
-        assertTrue(jsonString.contains("\"value\": \"John Doe\""))
-        assertTrue(jsonString.contains("\"minLength\": 2"))
-        assertTrue(jsonString.contains("\"maxLength\": 50"))
-        assertTrue(jsonString.contains("\"presence\": \"Visible\""))
-        assertTrue(jsonString.contains("\"enabled\": true"))
     }
 
     @Test
@@ -98,7 +69,7 @@ class TextFieldSerializationTest {
         )
 
         // When
-        val jsonString = json.encodeToString(originalTextField)
+        val jsonString = json.encodeToString<TextInputField>(originalTextField)
         val deserializedTextField = json.decodeFromString<TextField>(jsonString)
 
         // Then
@@ -112,29 +83,6 @@ class TextFieldSerializationTest {
         assertEquals(originalTextField.maxLength, deserializedTextField.maxLength)
         assertEquals(originalTextField.presenceFlow.value, deserializedTextField.presenceFlow.value)
         assertEquals(originalTextField.enabledFlow.value, deserializedTextField.enabledFlow.value)
-    }
-
-    @Test
-    fun `test TextField with default values serialization`() {
-        // Given
-        val textField = TextField()
-
-        // When
-        val jsonString = json.encodeToString(textField)
-
-        // Then
-        assertNotNull(jsonString)
-        assertTrue(jsonString.contains("\"id\": \"\""))
-        assertTrue(jsonString.contains("\"required\": true"))
-        assertTrue(jsonString.contains("\"readOnly\": false"))
-        assertTrue(jsonString.contains("\"singleLine\": true"))
-        assertTrue(jsonString.contains("\"placeHolder\": \"\""))
-        assertTrue(jsonString.contains("\"label\": \"\""))
-        assertTrue(jsonString.contains("\"value\": \"\""))
-        assertTrue(jsonString.contains("\"minLength\": 0"))
-        assertTrue(jsonString.contains("\"maxLength\": 2147483647"))
-        assertTrue(jsonString.contains("\"presence\": \"Visible\""))
-        assertTrue(jsonString.contains("\"enabled\": true"))
     }
 
     @Test

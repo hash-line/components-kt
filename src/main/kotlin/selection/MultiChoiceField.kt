@@ -6,6 +6,7 @@ import Presence
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * [MultiChoiceField] is a [selection.SelectionInputField] where user is shown a number of options and user has to pick one. This
@@ -14,6 +15,7 @@ import kotlinx.serialization.SerialName
  *
  * @property choiceLabelFlow The Label decoration
  */
+@Serializable
 class MultiChoiceField(
     override val id: String = "",
     override val required: Boolean = true,

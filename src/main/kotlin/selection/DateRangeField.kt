@@ -36,9 +36,17 @@ class DateRangeField(
     val labelFirst: String = "",
     val labelSecond: String = "",
     val format: String,
-) : SelectionInputField(
-    validation = DateRangeValidation(validationRange)
-)
+) : SelectionInputField(){
+    override val validation: InputValidation<Component?> = DateRangeValidation(validationRange)
+
+//    init {
+//        if (itemId != null && itemId.isNotEmpty()) {
+//            setValueSilently(DateRangeItem(id = itemId, start = 0L, end = 0L, format = format))
+//        }
+//        setPresence(presence)
+//        setEnabled(enabled)
+//    }
+}
 
 
 /**

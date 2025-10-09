@@ -21,12 +21,7 @@ import kotlinx.serialization.Serializable
  * @see InputField
  */
 @Serializable
-abstract class SelectionInputField(
-    override val validation: InputValidation<Component?> = NoValidation()
-) : BaseInputField<Component?>() {
-
-    // Add parameterless constructor for serialization
-    constructor() : this(NoValidation())
+abstract class SelectionInputField() : BaseInputField<Component?>() {
 
     override val default: Component?
         get() = null

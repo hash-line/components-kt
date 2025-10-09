@@ -27,8 +27,9 @@ class AcknowledgementField(
     @SerialName("enabled") private val enabled: Boolean = true,
     val label: Component? = null,
 ) : SelectionInputField(
-    validation = ItemNotNullValidation(),
 //    options = listOf(
 //        AcknowledgementItem(id = id, acknowledged = acknowledged)
 //    )
-)
+){
+    override val validation = ItemNotNullValidation()
+}

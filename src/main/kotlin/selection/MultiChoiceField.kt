@@ -44,8 +44,9 @@ class MultiChoiceField(
 //    fieldPresence = presence,
 //    options = options,
 //    value = options.firstOrNull { it.id == itemId },
-    validation = ItemNotNullValidation()
 ) {
+    override val validation = ItemNotNullValidation()
+
     private val _choiceLabel = MutableStateFlow(choiceLabel)
     val choiceLabelFlow: StateFlow<Component?>
         get() = _choiceLabel

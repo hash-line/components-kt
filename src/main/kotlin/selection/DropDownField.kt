@@ -37,8 +37,8 @@ class DropDownField(
 ) : SelectionInputField(
     //options = options,
     //value = options.firstOrNull { it.id == itemId },
-    validation = ItemNotNullValidation()
 ) {
+    override val validation: InputValidation<Component?> = ItemNotNullValidation()
 
     init {
 

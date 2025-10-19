@@ -4,7 +4,6 @@ import BaseInputField
 import Component
 import InputField
 import InputValidation
-import NoValidation
 import ValidationCode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,9 +13,6 @@ import kotlinx.serialization.Serializable
  * [SelectionInputField] is an [InputField] where user selects one or more options from a list of options.
  * [SelectionInputField] can be single selection where user can select only one option e.g dropdown fields for selecting payment options or
  * multiple-selection where user can select multiple options. e.g. start and end date for a date range
- *
- * @property options The list of options to select from.
- * @property inputValidation The validation rules for the input field.
  *
  * @see InputField
  */

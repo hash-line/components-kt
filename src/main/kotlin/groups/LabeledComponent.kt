@@ -5,7 +5,6 @@ import BaseComponent
 import Component
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.merge
-import kotlinx.serialization.Serializable
 
 interface LabeledComponent : Component {
 

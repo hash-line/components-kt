@@ -49,6 +49,7 @@ class DropDownField(
 //        )
     }
 
+    @kotlinx.serialization.Transient
     private val _optionsLabel = MutableStateFlow(optionsLabel)
     val optionsLabelFlow: StateFlow<String>
         get() = _optionsLabel

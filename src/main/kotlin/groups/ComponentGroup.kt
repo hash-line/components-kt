@@ -53,6 +53,7 @@ abstract class BaseComponentGroup() : BaseLabeledComponent(), ComponentGroup {
     override val count: Int
         get() = _children.value.size
 
+    @kotlinx.serialization.Transient
     @OptIn(ExperimentalCoroutinesApi::class)
     private val _childrenEvents = childrenFlow.flatMapLatest { fields ->
         fields.asFlow()

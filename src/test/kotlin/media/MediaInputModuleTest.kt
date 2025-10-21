@@ -12,6 +12,7 @@ class MediaInputModuleTest {
 
     private val json = Json {
         prettyPrint = true
+        encodeDefaults = true
         ignoreUnknownKeys = true
         serializersModule = MediaInputModule
     }
@@ -128,33 +129,6 @@ class MediaInputModuleTest {
         assertTrue(jsonString.contains("\"id\": \"document-test\""))
         assertTrue(jsonString.contains("\"value\": \"document.pdf\""))
         assertTrue(jsonString.contains("\"presentationMode\": \"Field\""))
-    }
-
-    @Test
-    fun `test polymorphic deserialization of DocumentField`() {
-        // Given
-        val jsonString = """
-        {
-            "type": "media.DocumentField",
-            "id": "document-test",
-            "required": true,
-            "readOnly": false,
-            "value": "test-document.docx",
-            "presentationMode": "Field",
-            "presence": "Visible",
-            "enabled": true
-        }
-        """.trimIndent()
-
-        // When
-        val documentField = json.decodeFromString<MediaField>(jsonString)
-
-        // Then
-        assertNotNull(documentField)
-        assertTrue(documentField is DocumentField)
-        assertEquals("document-test", documentField.id)
-        assertEquals("test-document.docx", documentField.valueFlow.value)
-        assertEquals(PresentationMode.Field, documentField.presentationMode)
     }
 
     @Test

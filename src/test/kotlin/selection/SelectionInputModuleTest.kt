@@ -12,6 +12,7 @@ class SelectionInputModuleTest {
 
     private val json = Json {
         prettyPrint = true
+        encodeDefaults = true
         ignoreUnknownKeys = true
         serializersModule = SelectionInputModule
     }

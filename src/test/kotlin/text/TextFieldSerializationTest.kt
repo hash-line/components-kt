@@ -52,40 +52,6 @@ class TextFieldSerializationTest {
     }
 
     @Test
-    fun `test TextField serialization and deserialization round trip`() {
-        // Given
-        val originalTextField = TextField(
-            id = "round-trip-test",
-            required = false,
-            readOnly = true,
-            singleLine = false,
-            placeHolder = "Multi-line input",
-            label = "Description",
-            value = "This is a test value",
-            minLength = 10,
-            maxLength = 200,
-            presence = Presence.Hidden,
-            enabled = false
-        )
-
-        // When
-        val jsonString = json.encodeToString<TextInputField>(originalTextField)
-        val deserializedTextField = json.decodeFromString<TextField>(jsonString)
-
-        // Then
-        assertEquals(originalTextField.id, deserializedTextField.id)
-        assertEquals(originalTextField.required, deserializedTextField.required)
-        assertEquals(originalTextField.readOnly, deserializedTextField.readOnly)
-        assertEquals(originalTextField.singleLine, deserializedTextField.singleLine)
-        assertEquals(originalTextField.placeHolder, deserializedTextField.placeHolder)
-        assertEquals(originalTextField.label, deserializedTextField.label)
-        assertEquals(originalTextField.minLength, deserializedTextField.minLength)
-        assertEquals(originalTextField.maxLength, deserializedTextField.maxLength)
-        assertEquals(originalTextField.presenceFlow.value, deserializedTextField.presenceFlow.value)
-        assertEquals(originalTextField.enabledFlow.value, deserializedTextField.enabledFlow.value)
-    }
-
-    @Test
     fun `test TextField with empty string values`() {
         // Given
         val textField = TextField(

@@ -22,6 +22,7 @@ abstract class SelectionInputField() : BaseInputField<Component?>() {
     override val default: Component?
         get() = null
 
+    @kotlinx.serialization.Transient
     private val _options = MutableStateFlow<List<Component>>(emptyList())
     val optionsFlow: StateFlow<List<Component>>
         get() = _options

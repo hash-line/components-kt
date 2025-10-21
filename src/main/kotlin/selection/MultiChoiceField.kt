@@ -47,6 +47,7 @@ class MultiChoiceField(
 ) {
     override val validation = ItemNotNullValidation()
 
+    @kotlinx.serialization.Transient
     private val _choiceLabel = MutableStateFlow(choiceLabel)
     val choiceLabelFlow: StateFlow<Component?>
         get() = _choiceLabel

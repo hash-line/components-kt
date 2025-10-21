@@ -100,7 +100,7 @@ jobs:
       run: chmod +x gradlew
     
     - name: Publish to Maven Central
-      run: ./gradlew publishToMavenCentral
+      run: ./gradlew publishToMavenCentral --stacktrace --info
       env:
         CI: true
         ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_mavenCentralUsername }}
